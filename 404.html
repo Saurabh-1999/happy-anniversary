@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>💕 Happy Anniversary 💕</title>
-    <base href="/happy-anniversary/" />
-    <link rel="stylesheet" href="css/app.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=" />
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script>
+        var segmentCount = 1; // number of path segments in your repo name
+        var l = window.location;
+        l.replace(
+            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+            l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' +
+            l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
+            (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+            l.hash
+        );
+    </script>
 </head>
 <body>
-    <div id="app">
-        <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#1a0011;">
-            <div style="text-align:center;color:#ff69b4;font-family:'Dancing Script',cursive;font-size:2rem;">
-                💕 Loading your surprise... 💕
-            </div>
-        </div>
-    </div>
-    <script src="_framework/blazor.webassembly.js"></script>
+    Redirecting...
 </body>
 </html>
