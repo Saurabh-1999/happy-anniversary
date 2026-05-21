@@ -1,0 +1,62 @@
+﻿@page "/gallery"
+@inject AnniversaryService AnniversaryService
+@inject NavigationManager Navigation
+
+<PageTitle>Our Memories 📸</PageTitle>
+
+<div class="gallery-screen">
+    <h1 class="page-title">Our Beautiful Memories 📸</h1>
+    <p class="page-subtitle">Every picture tells our story...</p>
+
+    <div class="gallery-grid">
+        @foreach (var (photo, index) in _photos.Select((p, i) => (p, i)))
+        {
+            <div class="photo-card @(_selectedPhoto == index ? "selected" : "")"
+                 style="animation-delay: @(index * 0.15)s"
+                 @onclick="() => SelectPhoto(index)">
+                <div class="photo-frame">
+                    <img src="@photo.Src" alt="@photo.Caption" loading="lazy" />
+                    <div class="photo-overlay">
+                        <span class="zoom-icon">🔍</span>
+                    </div>
+                </div>
+                <div class="photo-caption">
+                    <strong>@photo.Caption</strong>
+                    <small>@photo.Date</small>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (_selectedPhoto >= 0)
+    {
+        <div class="photo-modal" @onclick="CloseModal">
+            <div class="modal-content" @onclick:stopPropagation>
+                <button class="modal-close" @onclick="CloseModal">✕</button>
+                <img src="@_photos[_selectedPhoto].Src" alt="@_photos[_selectedPhoto].Caption" />
+                <p>@_photos[_selectedPhoto].Caption</p>
+                <small>@_photos[_selectedPhoto].Date</small>
+            </div>
+        </div>
+    }
+
+    <div class="nav-buttons">
+        <button class="btn-secondary" @onclick="GoBack">← Back</button>
+        <button class="btn-magic" @onclick="GoToSteps">Next: Our Crazy Steps 🤪 →</button>
+    </div>
+</div>
+
+@code {
+    private List<Photo> _photos = new();
+    private int _selectedPhoto = -1;
+
+    protected override void OnInitialized()
+    {
+        _photos = AnniversaryService.GetPhotos();
+    }
+
+    private void SelectPhoto(int index) => _selectedPhoto = index;
+    private void CloseModal() => _selectedPhoto = -1;
+    private void GoToSteps() => Navigation.NavigateTo("/steps");
+    private void GoBack() => Navigation.NavigateTo("/");
+}

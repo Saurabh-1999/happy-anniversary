@@ -1,0 +1,70 @@
+﻿@page "/steps"
+@inject AnniversaryService AnniversaryService
+@inject NavigationManager Navigation
+
+<PageTitle>Our Crazy Steps 🤪</PageTitle>
+
+<div class="steps-screen">
+    <h1 class="page-title">Our Crazy Love Story 🥰</h1>
+    <p class="page-subtitle">10 steps that made us, US!</p>
+
+    <div class="steps-timeline">
+        @foreach (var (step, index) in _steps.Select((s, i) => (s, i)))
+        {
+            <div class="step-card @(_visibleSteps.Contains(index) ? "visible" : "")"
+                 style="animation-delay: @(index * 0.2)s; border-color: @step.Color"
+                 @onclick="() => ToggleStep(index)">
+                <div class="step-header">
+                    <div class="step-number" style="background: @step.Color">@step.StepNumber</div>
+                    <div class="step-emoji-big">@step.Emoji</div>
+                    <div class="step-title-text">@step.Title</div>
+                    <div class="step-toggle">@(_expandedSteps.Contains(index) ? "▲" : "▼")</div>
+                </div>
+
+                @if (_expandedSteps.Contains(index))
+                {
+                    <div class="step-body">
+                        <p>@step.Description</p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="steps-progress">
+        <span>@_expandedSteps.Count / @_steps.Count steps explored 💕</span>
+        <div class="progress-bar">
+            <div class="progress-fill"
+                 style="width: @(_steps.Count > 0 ? (_expandedSteps.Count * 100 / _steps.Count) : 0)%">
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="btn-secondary" @onclick="GoBack">← Back</button>
+        <button class="btn-magic" @onclick="GoToFinal">Final Surprise 💝 →</button>
+    </div>
+</div>
+
+@code {
+    private List<CrazyStep> _steps = new();
+    private HashSet<int> _expandedSteps = new();
+    private HashSet<int> _visibleSteps = new();
+
+    protected override void OnInitialized()
+    {
+        _steps = AnniversaryService.GetCrazySteps();
+        _visibleSteps = Enumerable.Range(0, _steps.Count).ToHashSet();
+    }
+
+    private void ToggleStep(int index)
+    {
+        if (_expandedSteps.Contains(index))
+            _expandedSteps.Remove(index);
+        else
+            _expandedSteps.Add(index);
+    }
+
+    private void GoToFinal() => Navigation.NavigateTo("/final");
+    private void GoBack() => Navigation.NavigateTo("/gallery");
+}

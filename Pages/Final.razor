@@ -1,0 +1,120 @@
+﻿@page "/final"
+@inject AnniversaryService AnniversaryService
+@inject NavigationManager Navigation
+@implements IDisposable
+
+<PageTitle>💍 Forever & Always 💍</PageTitle>
+
+<div class="final-screen">
+    <div class="fireworks-container">
+        @foreach (var fw in _fireworks)
+        {
+            <div class="firework-dot"
+                 style="left:@(fw.X)%;top:@(fw.Y)%;background:@(fw.Color);animation-delay:@(fw.Delay)s">
+            </div>
+        }
+    </div>
+
+    <div class="floating-hearts-layer">
+        @foreach (var h in _floatingHearts)
+        {
+            <span class="float-heart"
+                  style="left:@(h.Left)%;animation-duration:@(h.Duration)s;animation-delay:@(h.Delay)s;font-size:@(h.Size)rem">
+                @h.Emoji
+            </span>
+        }
+    </div>
+
+    <div class="final-content">
+        <div class="crown-animation">👑</div>
+        <h1 class="mega-glow">Happy Anniversary!</h1>
+        <h2 class="to-name">To @AnniversaryService.PersonName, with all my love 💕</h2>
+
+        <div class="love-letter-card">
+            <div class="letter-header">💌 A Letter From My Heart</div>
+            <p>
+                My dearest @AnniversaryService.PersonName,
+            </p>
+            <p>
+                Every morning I wake up grateful that you're in my life.
+                You've brought so much joy, laughter, and warmth into my world.
+                Through every crazy adventure, every quiet moment, every challenge —
+                you've been my greatest blessing.
+            </p>
+            <p>
+                <strong>@AnniversaryService.GetDaysTogether() days</strong> of pure magic. And I'd choose
+                every single one of them again, a million times over. 🌹
+            </p>
+            <p class="letter-sign">
+                Forever yours,<br />
+                <strong>@AnniversaryService.YourName 💕</strong>
+            </p>
+        </div>
+
+        <div class="final-stats">
+            <div class="stat-bubble">@AnniversaryService.GetDaysTogether() Days Together ❤️</div>
+            <div class="stat-bubble">∞ Memories Made 📸</div>
+            <div class="stat-bubble">1 Perfect Love Story 💍</div>
+        </div>
+
+        <div class="final-buttons">
+            <button class="btn-magic" @onclick="Replay">
+                Replay Our Story 🔄
+            </button>
+            <button class="btn-secondary" @onclick="GoToGallery">
+                📸 View Photos Again
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<FireworkDot> _fireworks = new();
+    private List<HeartItem> _floatingHearts = new();
+    private System.Threading.Timer? _timer;
+
+    protected override void OnInitialized()
+    {
+        var rng = new Random();
+        var colors = new[] { "#ff1493", "#ff69b4", "#ffd700", "#50fa7b", "#ff6b6b", "#00bfff" };
+        var emojis = new[] { "💕", "💖", "❤️", "💗", "💝", "🌹", "✨", "🎊" };
+
+        _fireworks = Enumerable.Range(0, 25).Select(_ => new FireworkDot
+        {
+            X = rng.Next(5, 95),
+            Y = rng.Next(5, 85),
+            Color = colors[rng.Next(colors.Length)],
+            Delay = rng.NextDouble() * 4
+        }).ToList();
+
+        _floatingHearts = Enumerable.Range(0, 20).Select(_ => new HeartItem
+        {
+            Emoji = emojis[rng.Next(emojis.Length)],
+            Left = rng.Next(0, 100),
+            Duration = rng.Next(3, 8),
+            Delay = rng.Next(0, 6),
+            Size = Math.Round(rng.NextDouble() * 1.5 + 1, 1)
+        }).ToList();
+    }
+
+    private void Replay() => Navigation.NavigateTo("/");
+    private void GoToGallery() => Navigation.NavigateTo("/gallery");
+    public void Dispose() => _timer?.Dispose();
+
+    private class FireworkDot
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public string Color { get; set; } = "#ff1493";
+        public double Delay { get; set; }
+    }
+
+    private class HeartItem
+    {
+        public string Emoji { get; set; } = "💕";
+        public int Left { get; set; }
+        public int Duration { get; set; }
+        public int Delay { get; set; }
+        public double Size { get; set; } = 1.5;
+    }
+}

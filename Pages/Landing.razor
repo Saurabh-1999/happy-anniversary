@@ -1,0 +1,73 @@
+﻿@page "/"
+@inject AnniversaryService AnniversaryService
+@inject NavigationManager Navigation
+
+<PageTitle>💕 Happy Anniversary 💕</PageTitle>
+
+<div class="landing-screen">
+    <div class="hearts-rain">
+        @foreach (var heart in _hearts)
+        {
+            <span class="falling-heart" style="left:@(heart.Left)%; animation-duration:@(heart.Duration)s; animation-delay:@(heart.Delay)s">
+                @heart.Emoji
+            </span>
+        }
+    </div>
+
+    <div class="landing-content">
+        <div class="ring-animation">💍</div>
+        <h1 class="glow-title">💕 Happy Anniversary 💕</h1>
+        <h2 class="sub-heading">@AnniversaryService.GetAnniversaryMessage()</h2>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-number">@AnniversaryService.GetDaysTogether()</span>
+                <span class="stat-label">Days Together</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Love & Laughter</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">1</span>
+                <span class="stat-label">Perfect Pair</span>
+            </div>
+        </div>
+
+        <p class="love-intro">
+            Every single day with you is a gift 🎁<br />
+            Let's relive our most beautiful moments together...
+        </p>
+
+        <button class="btn-magic pulse" @onclick="GoToGallery">
+            Open Your Surprise 🎁
+        </button>
+    </div>
+</div>
+
+@code {
+    private List<HeartItem> _hearts = new();
+
+    protected override void OnInitialized()
+    {
+        var emojis = new[] { "💕", "💖", "💗", "❤️", "💝", "💘", "🌹", "✨" };
+        var rng = new Random();
+        _hearts = Enumerable.Range(0, 15).Select(i => new HeartItem
+        {
+            Emoji = emojis[rng.Next(emojis.Length)],
+            Left = rng.Next(0, 100),
+            Duration = rng.Next(4, 10),
+            Delay = rng.Next(0, 8)
+        }).ToList();
+    }
+
+    private void GoToGallery() => Navigation.NavigateTo("/gallery");
+
+    private class HeartItem
+    {
+        public string Emoji { get; set; } = "💕";
+        public int Left { get; set; }
+        public int Duration { get; set; }
+        public int Delay { get; set; }
+    }
+}
