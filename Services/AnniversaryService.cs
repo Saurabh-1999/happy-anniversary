@@ -9,54 +9,62 @@ namespace happy_anniversary.Services
         public string PersonName { get; set; } = "My Love";
         public string YourName { get; set; } = "Saurabh";
         public int YearsTogther { get; set; } = 1;
-        public DateTime AnniversaryDate { get; set; } = new DateTime(2024, 5, 21);
+        public DateTime AnniversaryDate { get; set; } = new DateTime(2025, 11, 22);
 
+        //public string GetAnniversaryMessage() =>
+        //    $"Happy {YearsTogther} Year Anniversary, {PersonName}! 💕";
         public string GetAnniversaryMessage() =>
-            $"Happy {YearsTogther} Year Anniversary, {PersonName}! 💕";
+           $"Happy Anniversary, {PersonName}! 💕";
 
         public int GetDaysTogether() =>
             (DateTime.Today - AnniversaryDate).Days;
 
         // ✏️ REPLACE src with your actual image paths like "images/photo1.jpg"
         public List<Photo> GetPhotos() => new()
+{
+    new Photo
     {
-        new Photo
-        {
-            Src = "https://placehold.co/400x300/ff69b4/ffffff?text=Our+First+Date+💕",
-            Caption = "Our First Date 💕",
-            Date = "The day it all began"
-        },
-        new Photo
-        {
-            Src = "https://placehold.co/400x300/ff1493/ffffff?text=First+Trip+✈️",
-            Caption = "First Trip Together ✈️",
-            Date = "Adventure awaits"
-        },
-        new Photo
-        {
-            Src = "https://placehold.co/400x300/c71585/ffffff?text=Crazy+Night+🤪",
-            Caption = "That Crazy Night 🤪",
-            Date = "We still laugh about this"
-        },
-        new Photo
-        {
-            Src = "https://placehold.co/400x300/db7093/ffffff?text=Forever+💍",
-            Caption = "Forever & Always 💍",
-            Date = "This moment changed everything"
-        },
-        new Photo
-        {
-            Src = "https://placehold.co/400x300/ff69b4/ffffff?text=Our+Selfie+📱",
-            Caption = "Our Favorite Selfie 📱",
-            Date = "Candid happiness"
-        },
-        new Photo
-        {
-            Src = "https://placehold.co/400x300/ff1493/ffffff?text=I+Love+You+❤️",
-            Caption = "Because I Love You ❤️",
-            Date = "Every single day"
-        }
-    };
+        Src = "https://www.shutterstock.com/image-vector/love-dating-romance-feelings-concept-260nw-2042816195.jpg",
+        Caption = "Our First Date 💕",
+        Date = "The day it all began",
+        CropPosition = "center"
+    },
+    new Photo
+    {
+        Src = "https://i.pinimg.com/originals/86/8a/9d/868a9d4bedd7a09cf2943782ee061576.jpg",
+        Caption = "First Trip Together ✈️",
+        Date = "Adventure awaits",
+        CropPosition = "top"       // 👈 crops from top for trip image
+    },
+    new Photo
+    {
+        Src = "https://pichut.in/wp-content/uploads/best-couple-pic-cartoon-1.webp",
+        Caption = "That Crazy Night 🤪",
+        Date = "We still laugh about this",
+        CropPosition = "center"
+    },
+    new Photo
+    {
+        Src = "https://wallpapers.com/images/hd/love-cartoon-silhouette-4kkhxjl630ytfpah.jpg",
+        Caption = "Forever & Always 💍",
+        Date = "This moment changed everything",
+        CropPosition = "center"
+    },
+    new Photo
+    {
+        Src = "https://media.istockphoto.com/id/997118460/vector/happy-friendship-day-greeting-card.jpg?s=612x612&w=0&k=20&c=pWy72uZX60DNYQj_zEjnzehUTgInKbbp6hPNhc37qXs=",
+        Caption = "Our Favorite Selfie 📱",
+        Date = "Candid happiness",
+        CropPosition = "center"
+    },
+    new Photo
+    {
+        Src = "https://pichut.in/wp-content/uploads/romantic-cartoon-couple-pic-2.webp",
+        Caption = "Because I Love You ❤️",
+        Date = "Every single day",
+        CropPosition = "50% 30%"   // 👈 crops to show upper-center for love image
+    }
+};
 
         // ✏️ EDIT these steps with your real story
         public List<CrazyStep> GetCrazySteps() => new()
@@ -93,7 +101,7 @@ namespace happy_anniversary.Services
         {
             StepNumber = 5, Emoji = "🍕",
             Title = "Midnight Cravings",
-            Description = "3 AM pizza runs and weird hour ice cream - our kind of romance! 🍦",
+            Description = "Late Night pizza runs and weird hour ice cream - our kind of romance! 🍦",
             Color = "#ffa500"
         },
         new CrazyStep
@@ -107,7 +115,7 @@ namespace happy_anniversary.Services
         {
             StepNumber = 7, Emoji = "🎵",
             Title = "Our Song Moments",
-            Description = "Singing terribly together in the car like we're absolute rockstars! 🎤🤘",
+            Description = "Singing terribly together like we're absolute rockstars! 🎤🤘",
             Color = "#50fa7b"
         },
         new CrazyStep

@@ -15,7 +15,8 @@
                  style="animation-delay: @(index * 0.15)s"
                  @onclick="() => SelectPhoto(index)">
                 <div class="photo-frame">
-                    <img src="@photo.Src" alt="@photo.Caption" loading="lazy" />
+                    <img src="@photo.Src" alt="@photo.Caption" loading="lazy"
+                         style="width:100%; height:220px; object-fit:cover; object-position:@photo.CropPosition;" />
                     <div class="photo-overlay">
                         <span class="zoom-icon">🔍</span>
                     </div>
