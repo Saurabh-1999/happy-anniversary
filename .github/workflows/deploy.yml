@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  pages: write
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish
+        run: dotnet publish happy-anniversary.csproj -c Release -o release
+
+      - name: Fix base href
+        run: sed -i 's|<base href="/" />|<base href="/happy-anniversary/" />|g' release/wwwroot/index.html
+
+      - name: Copy index.html as 404.html
+        run: cp release/wwwroot/index.html release/wwwroot/404.html
+
+      - name: Add .nojekyll
+        run: touch release/wwwroot/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: release/wwwroot
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
