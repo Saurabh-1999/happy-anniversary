@@ -1,0 +1,2 @@
+C:\Users\731670\Downloads\happy-anniversary\release\emcc-props.json
+C:\Users\731670\Downloads\happy-anniversary\release\web.config
